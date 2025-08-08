@@ -6,7 +6,7 @@
  *   KV:     CHAT_QUOTA
  */
 
-const DAILY_LIMIT  = 100_000;                  // tokens per UTC day
+const DAILY_LIMIT  = 400_000;                  // tokens per UTC day
 const ALLOWED_ORIGINS = [
   'https://cgenereux.github.io',
   'http://127.0.0.1:5500',
@@ -197,7 +197,18 @@ export default {
         });
       }
 
-      // Update quota (best‐effort)
+      // If upstream failed, do not echo its body to avoid leaking secrets
+      if (!upstream.ok) {
+        const safeMsg = upstream.status === 401 || upstream.status === 403
+          ? 'OpenAI rejected the request (check API key and account)'
+          : `Upstream error from OpenAI (status ${upstream.status})`;
+        return new Response(JSON.stringify({ error: safeMsg }), {
+          status: upstream.status,
+          headers: corsHeaders(allowOrigin, 'application/json')
+        });
+      }
+
+      // Update quota (best‐effort) only for successful responses
       try {
         const j = JSON.parse(text);
         const tokens = j.usage?.total_tokens || 0;
