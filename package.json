@@ -1,0 +1,9 @@
+{
+  "name": "negotiate-llm",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Simple chat UI with local saver",
+  "scripts": {
+    "saver": "node local-saver.js"
+  }
+}

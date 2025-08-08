@@ -1,0 +1,20 @@
+name = "still-glade-4d20"
+main = "worker.js"
+compatibility_date = "2025-07-17"
+
+[[kv_namespaces]]
+binding = "CHAT_QUOTA"
+id      = "86b1b3f8cdb04136912344cea25c1b68"
+
+# Add these KV namespaces and set their IDs via `wrangler kv namespace create`
+[[kv_namespaces]]
+binding = "CONVERSATIONS"
+id      = "06663f11df8e404d90d2bc4634282011"
+
+[[kv_namespaces]]
+binding = "USERS"
+id      = "7e84545c15124251bb3db4d91f14d980"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id      = "53a29d7524794250b7b701f9f0864541"

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with GPT-5</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .app { display: flex; gap: 1rem; max-width: 1100px; margin: 4vh auto; padding: 0 1rem; }
+    aside {
+      width: 280px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      padding: 0.8rem;
+      box-sizing: border-box;
+      height: calc(92vh);
+      display: flex; flex-direction: column;
+    }
+    aside h3 { margin: 0 0 0.6rem; font-size: 1.05rem; }
+    #convList { list-style: none; padding: 0; margin: 0.6rem 0; overflow: auto; flex: 1; }
+    #convList li { padding: 0.45rem 0.5rem; border-radius: 6px; cursor: pointer; position: relative; }
+    #convList li:hover { background: #f2f5ff; }
+    #convList li.active { background: #e7f1ff; }
+    .delbtn { position: absolute; right: 6px; top: 6px; font-size: 0.85rem; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; padding: 0.1rem 0.3rem; cursor: pointer; }
+    .delbtn:hover { background: #f5c6cb; }
+    .sidebtns { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+
+    main {
+      flex: 1;
+      padding: 1rem 1.2rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      background: #fff;
+      box-sizing: border-box;
+      height: calc(92vh);
+      display: flex; flex-direction: column;
+    }
+    h2 { margin-top: 0; text-align: center; }
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      background: #fff;
+    }
+    .message { white-space: pre-wrap; margin-bottom: 0.6rem; }
+    .message.user { color: #007bff; }
+    .message.assistant { color: #28a745; }
+    textarea {
+      width: 100%;
+      background: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.55rem;
+      box-sizing: border-box;
+    }
+    .attachments { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 0.5rem 0; }
+    .thumb { position: relative; width: 80px; height: 80px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb button { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color:#fff; border: none; border-radius: 4px; font-size: 0.7rem; padding: 0.1rem 0.25rem; cursor: pointer; }
+    .toolbar { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+    button {
+      padding: 0.55rem 1.0rem;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover { background: #0069d9; }
+  </style>
+</head>
+<body>
+  <div id="auth" style="max-width:420px;margin:6vh auto;padding:1rem 1.2rem;border:1px solid #ddd;border-radius:10px;background:#fff;display:none">
+    <h2 style="margin-top:0">Sign in</h2>
+    <p style="margin-top:0.2rem;color:#555">Choose your username and set a password on first use.</p>
+    <label>Username
+      <input id="username" type="text" />
+    </label>
+    <label>Password
+      <input id="password" type="password" />
+    </label>
+    <div class="toolbar">
+      <button id="loginBtn">Login</button>
+      <button id="registerBtn">Register</button>
+    </div>
+    <p id="authMsg" style="color:#c00"></p>
+  </div>
+
+  <div class="app" id="app" style="display:none">
+    <aside>
+      <h3>Your chats</h3>
+      <div class="sidebtns">
+        <button id="newConv" title="Start a new chat">New</button>
+        <button id="deleteConv" title="Delete selected chat">Delete</button>
+      </div>
+      <ul id="convList"></ul>
+    </aside>
+    <main>
+      <h2>Chat with GPT-5</h2>
+      <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem">
+        <span id="whoami" style="color:#555"></span>
+        <button id="logout" style="margin-left:auto">Log out</button>
+      </div>
+      <div id="chat"></div>
+      <textarea id="userInput" rows="3" placeholder="Type a message & press Enter"></textarea>
+      <div id="attachments" class="attachments"></div>
+      <div class="toolbar">
+        <button id="attach">Attach image</button>
+        <button id="send">Send</button>
+        <button id="clear" title="Clear conversation">Clear</button>
+        <button id="download" title="Download conversation JSON">Download</button>
+      </div>
+    </main>
+  </div>
+  <input id="imageInput" type="file" accept="image/*" multiple style="display:none">
+  <script src="./script.js"></script>
+</body>
+</html>
