@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chat with GPT-5</title>
+  <link rel="icon" href="./tab-icon.png" type="image/png" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -78,6 +79,33 @@
       cursor: pointer;
     }
     button:hover { background: #0069d9; }
+    /* File chips for non-image attachments */
+    .filechip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.35rem 0.5rem;
+      background: #fafafa;
+      font-size: 0.9rem;
+    }
+    .filechip .remove { position: static; background: #eee; color:#333; border: 1px solid #ccc; }
+    .filechip .remove:hover { background: #ddd; }
+    /* Auth form layout fixes */
+    #auth label { display: block; margin: 0.6rem 0 0.35rem; color: #222; }
+    #auth label input {
+      display: block;
+      width: 100%;
+      background: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.5rem;
+      box-sizing: border-box;
+    }
+    #auth .toolbar { margin-top: 0.8rem; }
   </style>
 </head>
 <body>
@@ -103,6 +131,7 @@
       <div class="sidebtns">
         <button id="newConv" title="Start a new chat">New</button>
         <button id="deleteConv" title="Delete selected chat">Delete</button>
+        <button id="syncBtn" title="Sync with server">Sync</button>
       </div>
       <ul id="convList"></ul>
     </aside>
@@ -116,14 +145,15 @@
       <textarea id="userInput" rows="3" placeholder="Type a message & press Enter"></textarea>
       <div id="attachments" class="attachments"></div>
       <div class="toolbar">
-        <button id="attach">Attach image</button>
+        <button id="attachMore" title="Attach files">+</button>
         <button id="send">Send</button>
-        <button id="clear" title="Clear conversation">Clear</button>
-        <button id="download" title="Download conversation JSON">Download</button>
+        <button id="stop" title="Stop generating">Stop</button>
+        <button id="download" title="Download conversation transcript (.txt)">Download</button>
       </div>
     </main>
   </div>
   <input id="imageInput" type="file" accept="image/*" multiple style="display:none">
+  <input id="fileInput" type="file" multiple style="display:none">
   <script src="./script.js"></script>
 </body>
 </html>
